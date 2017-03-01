@@ -1,14 +1,15 @@
-# openwisp.org
-#
-# This is free software, licensed under the GNU General Public License v3.
-# See /LICENSE for more information.
-
 include $(TOPDIR)/rules.mk
 
 PKG_NAME:=openwisp-config
-PKG_VERSION:=$(shell cat ../VERSION)
-PKG_RELEASE:=1
-PKG_BUILD_DIR:=$(BUILD_DIR)/$(PKG_NAME)-$(BUILD_VARIANT)/$(PKG_SOURCE_SUBDIR)
+PKG_VERSION:=0.4.3
+PKG_RELEASE:=2
+
+PKG_BUILD_DIR:=$(BUILD_DIR)/$(PKG_NAME)-$(PKG_VERSION)
+PKG_SOURCE_PROTO:=git
+PKG_SOURCE:=$(PKG_NAME)-$(PKG_VERSION).tar.gz
+PKG_SOURCE_URL:=https://github.com/openwisp/openwisp-config.git
+PKG_SOURCE_VERSION:=0.4.3
+PKG_SOURCE_SUBDIR:=$(PKG_NAME)-$(PKG_SOURCE_VERSION)
 PKG_LICENSE:=GPL-3.0
 
 include $(INCLUDE_DIR)/package.mk
@@ -64,45 +65,45 @@ define Package/openwisp-config-$(BUILD_VARIANT)/install
 		$(1)/usr/lib/lua/openwisp
 
 	$(INSTALL_BIN) \
-		files/openwisp.agent \
+		$(PKG_BUILD_DIR)/openwisp-config/files/openwisp.agent \
 		$(1)/usr/sbin/openwisp_config
 
 	$(INSTALL_BIN) \
-		files/openwisp.init \
+		$(PKG_BUILD_DIR)/openwisp-config/files/openwisp.init \
 		$(1)/etc/init.d/openwisp_config
 
-	$(INSTALL_CONF) files/openwisp-$(CONFIG_OPENWISP_UCI).config \
+	$(INSTALL_CONF) $(PKG_BUILD_DIR)/openwisp-config/files/openwisp-$(CONFIG_OPENWISP_UCI).config \
 		$(1)/etc/config/openwisp
 
 	$(INSTALL_BIN) \
-		files/sbin/openwisp-reload-config \
+		$(PKG_BUILD_DIR)/openwisp-config/files/sbin/openwisp-reload-config \
 		$(1)/usr/sbin/openwisp-reload-config
 
 	$(INSTALL_BIN) \
-		files/lib/openwisp/utils.lua \
+		$(PKG_BUILD_DIR)/openwisp-config/files/lib/openwisp/utils.lua \
 		$(1)/usr/lib/lua/openwisp/utils.lua
 
 	$(INSTALL_BIN) \
-		files/sbin/openwisp-store-unmanaged.lua \
+		$(PKG_BUILD_DIR)/openwisp-config/files/sbin/openwisp-store-unmanaged.lua \
 		$(1)/usr/sbin/openwisp-store-unmanaged
 
 	$(INSTALL_BIN) \
-		files/sbin/openwisp-restore-unmanaged.lua \
+		$(PKG_BUILD_DIR)/openwisp-config/files/sbin/openwisp-restore-unmanaged.lua \
 		$(1)/usr/sbin/openwisp-restore-unmanaged
 
 	$(INSTALL_BIN) \
-		files/sbin/openwisp-remove-default-wifi.lua \
+		$(PKG_BUILD_DIR)/openwisp-config/files/sbin/openwisp-remove-default-wifi.lua \
 		$(1)/usr/sbin/openwisp-remove-default-wifi
 
 	$(INSTALL_BIN) \
-		files/sbin/openwisp-uci-autoname.lua \
+		$(PKG_BUILD_DIR)/openwisp-config/files/sbin/openwisp-uci-autoname.lua \
 		$(1)/usr/sbin/openwisp-uci-autoname
 
 	$(INSTALL_BIN) \
-		files/sbin/openwisp-update-config.lua \
+		$(PKG_BUILD_DIR)/openwisp-config/files/sbin/openwisp-update-config.lua \
 		$(1)/usr/sbin/openwisp-update-config
 
-	$(CP) ../VERSION $(1)/etc/openwisp/
+	$(CP) $(PKG_BUILD_DIR)/VERSION $(1)/etc/openwisp/
 endef
 
 $(eval $(call BuildPackage,openwisp-config-openssl))
