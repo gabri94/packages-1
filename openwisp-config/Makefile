@@ -11,6 +11,7 @@ PKG_SOURCE_URL:=https://github.com/openwisp/openwisp-config.git
 PKG_SOURCE_VERSION:=0.4.3
 PKG_SOURCE_SUBDIR:=$(PKG_NAME)-$(PKG_SOURCE_VERSION)
 PKG_LICENSE:=GPL-3.0
+PKGARCH:=all
 
 include $(INCLUDE_DIR)/package.mk
 
